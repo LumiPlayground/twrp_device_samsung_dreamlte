@@ -1,0 +1,25 @@
+# Android fstab file.
+# mount point     fstype  device                                          device2            flags
+/metadata         ext4    /dev/block/platform/11120000.ufs/by-name/OMR                         flags=display="Metadata";fsflags="discard"
+/cache            ext4    /dev/block/platform/11120000.ufs/by-name/CACHE                       flags=display="Cache"
+
+/system           auto    /dev/block/platform/11120000.ufs/by-name/SYSTEM                      flags=display="System"
+/product          auto    /dev/block/platform/11120000.ufs/by-name/PRODUCT                     flags=display="Product"
+/vendor           auto    /dev/block/platform/11120000.ufs/by-name/VENDOR                      flags=display="Vendor"
+/prism            auto    /dev/block/platform/11120000.ufs/by-name/PRISM                       flags=display="Prism"
+/optics           auto    /dev/block/platform/11120000.ufs/by-name/OPTICS                      flags=display="Optics"
+
+/system_image     emmc    /dev/block/platform/11120000.ufs/by-name/SYSTEM                      flags=display="System Image";flashimg=1
+/product_image    emmc    /dev/block/platform/11120000.ufs/by-name/PRODUCT                     flags=display="Product Image";flashimg=1
+/vendor_image     emmc    /dev/block/platform/11120000.ufs/by-name/VENDOR                      flags=display="Vendor Image";flashimg=1
+/prism_image      emmc    /dev/block/platform/11120000.ufs/by-name/PRISM                       flags=display="Prism Image"
+/optics_image     emmc    /dev/block/platform/11120000.ufs/by-name/OPTICS                      flags=display="Optics Image"
+
+/boot             emmc    /dev/block/platform/11120000.ufs/by-name/BOOT                        flags=flashimg=1;backup=1
+/recovery         emmc    /dev/block/platform/11120000.ufs/by-name/RECOVERY                    flags=flashimg=1;backup=1
+/modem            emmc    /dev/block/platform/11120000.ufs/by-name/RADIO                       flags=display="Modem";backup=1
+/efs              ext4    /dev/block/platform/11120000.ufs/by-name/EFS                         flags=display="EFS";backup=1
+
+# Removable partitions
+/external_sd      auto    /dev/block/mmcblk0p1                        /dev/block/mmcblk0       flags=display="SD Card";storage;wipeingui;removable
+/usb-otg          auto    /dev/block/sde1                             /dev/block/sde           flags=display="USB OTG";storage;wipeingui;removable

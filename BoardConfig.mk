@@ -1,0 +1,89 @@
+#
+# Copyright (C) 2026 The Android Open Source Project
+# Copyright (C) 2026 The TWRP Open Source Project
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+DEVICE_PATH := device/samsung/dreamlte
+
+# Architecture
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := cortex-a73
+
+# Platform
+TARGET_BOARD_PLATFORM := exynos5
+TARGET_SOC := exynos8895
+TARGET_BOOTLOADER_BOARD_NAME := universal8895
+
+# Kernel
+# custom mkbootimg binary with --dt support
+# built from https://github.com/osm0sis/mkbootimg
+BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_MKBOOTIMG := $(DEVICE_PATH)/mkboobimg
+BOARD_CUSTOM_BOOTIMG_MK := $(DEVICE_PATH)/mkbootimg.mk
+
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_IMAGE_NAME := Image
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image
+# sboot ignores kernel cmdline
+BOARD_KERNEL_CMDLINE += androidboot.hardware=samsungexynos8895
+
+BOARD_MKBOOTIMG_ARGS := \
+    --dt $(DEVICE_PATH)/prebuilt/dtb \
+    --board SRPSG08A009 \
+    --base 0x10000000 \
+    --kernel_offset 0x00008000 \
+    --ramdisk_offset 0x01000000 \
+    --tags_offset 0x00000100
+
+# Filesystem
+BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_ROOT_EXTRA_FOLDERS := efs prism optics omr
+
+# Partitions
+BOARD_USES_METADATA_PARTITION := true
+BOARD_FLASH_BLOCK_SIZE := 131072
+BOARD_BOOTIMAGE_PARTITION_SIZE := 41943040
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 48234496
+
+BOARD_USES_VENDORIMAGE := true
+TARGET_COPY_OUT_VENDOR := vendor
+
+# Crypto
+PLATFORM_SECURITY_PATCH := 2099-12-31
+PLATFORM_VERSION := 99.87.36
+PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
+VENDOR_SECURITY_PATCH := 2099-12-31
+TW_INCLUDE_CRYPTO := false
+TW_INCLUDE_CRYPTO_FBE := false
+
+# Recovery
+TARGET_RECOVERY_PIXEL_FORMAT := ABGR_8888
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
+RECOVERY_SDCARD_ON_DATA := true
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+
+# Verified Boot
+BOARD_AVB_ENABLE := true
+BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_RECOVERY_ROLLBACK_INDEX := 1
+BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 1
+
+# TWRP specific build flags
+TW_THEME := portrait_hdpi
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel/brightness"
+TW_USE_LEGACY_BATTERY_SERVICES := true
+TW_MAX_BRIGHTNESS := 25500
+TW_DEFAULT_BRIGHTNESS := 10000
+TW_NO_REBOOT_BOOTLOADER := true
+TW_HAS_DOWNLOAD_MODE := true
+TW_BACKUP_EXCLUSIONS := /data/fonts
+TW_EXCLUDE_APEX := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_INCLUDE_NTFS_3G := true
